@@ -11,10 +11,11 @@ $f3 = Base::instance();
 
 //deine rout
 $f3->route('GET /', function (){
-    //echo '<h1> Pet home </h1>';
+    //echo '<h1> Hello from dinner </h1>';
     //render view page
     $view = new Template();
-    echo $view->render('views/home.html');
+    echo $view->render('views/home-page.html');
 });
 
 $f3->run();
+
