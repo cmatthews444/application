@@ -1,0 +1,12 @@
+{
+  "name": "application",
+  "authors": [
+    {
+      "name": "Colton Matthews",
+      "email": "Cmatthews4278@gmail.com"
+    }
+  ],
+  "require": {
+    "bcosca/fatfree-core": "dev-master"
+  }
+}
