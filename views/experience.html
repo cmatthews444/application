@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Job Experience</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Job Experience</h2>
+    <p>Job Experience Application</p>
+    <hr>
+    <div class="bg-light p-5">
+        <form action="#" method="post">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4>Experience</h4>
+                    <div class="form-group">
+                        <label for="biography">Biography</label>
+                        <textarea class="form-control" id="biography" name="biography" rows="5" placeholder="Your biography..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Next</button>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="githubLink">Github Link</label>
+                        <input type="url" class="form-control" id="githubLink" name="githubLink" placeholder="github.com/my_github">
+                    </div>
+                    <div class="form-group">
+                        <label>Years Experience</label>
+                        <repeat group="{{ @experienceOptions }}" value="{{ @expOption }}">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="experience" id="experience{{ @expOption }}" value="{{ @expOption }}" required>
+                                <label class="form-check-label" for="experience{{ @expOption }}">{{ @expOption }}</label>
+                            </div>
+                        </repeat>
+                    </div>
+                    <div class="form-group">
+                        <label>Willing To Relocate</label>
+                        <repeat group="{{ @relocateOptions }}" value="{{ @relocateOption }}">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="relocate" id="relocate{{ @relocateOption }}" value="{{ @relocateOption }}">
+                                <label class="form-check-label" for="relocate{{ @relocateOption }}">{{ @relocateOption }}</label>
+                            </div>
+                        </repeat>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
