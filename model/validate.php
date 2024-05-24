@@ -1,5 +1,5 @@
 <?php
-
+//
 //name validation
 function validName($name) {
     return preg_match('/^[a-zA-Z]+$/', $name);
