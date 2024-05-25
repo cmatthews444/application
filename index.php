@@ -24,22 +24,22 @@ $f3->route('GET|POST /personal-info', function($f3) {
         $email = $_POST['email'] ?? '';
         $phone = $_POST['phone'] ?? '';
         $state = $_POST['state'] ?? '';
-
-        if (!validName($firstName)) {
-            $errors['firstName'] = 'Please enter a valid first name.';
-        }
-
-        if (!validName($lastName)) {
-            $errors['lastName'] = 'Please enter a valid last name.';
-        }
-
-        if (!validEmail($email)) {
-            $errors['email'] = 'Please enter a valid email.';
-        }
-
-        if (!validPhone($phone)) {
-            $errors['phone'] = 'Please enter a valid phone number.';
-        }
+//
+//        if (!validName($firstName)) {
+//            $errors['firstName'] = 'Please enter a valid first name.';
+//        }
+//
+//        if (!validName($lastName)) {
+//            $errors['lastName'] = 'Please enter a valid last name.';
+//        }
+//
+//        if (!validEmail($email)) {
+//            $errors['email'] = 'Please enter a valid email.';
+//        }
+//
+//        if (!validPhone($phone)) {
+//            $errors['phone'] = 'Please enter a valid phone number.';
+//        }
 
         if (empty($errors)) {
             $f3->set('SESSION.firstName', $firstName);
@@ -77,17 +77,17 @@ $f3->route('GET|POST /experience', function($f3) {
         if (!validExperience($experience)) {
             $errors['experience'] = 'Please select a valid experience range';
         }
-
-        if (empty($errors)) {
-            $f3->set('SESSION.githubLink', $githubLink);
-            $f3->set('SESSION.experience', $experience);
-            $f3->set('SESSION.biography', $biography);
-            $f3->set('SESSION.relocate', $relocate);
-
-            $f3->reroute('job-open');
-        } else {
-            $f3->set('errors', $errors);
-        }
+//
+//        if (empty($errors)) {
+//            $f3->set('SESSION.githubLink', $githubLink);
+//            $f3->set('SESSION.experience', $experience);
+//            $f3->set('SESSION.biography', $biography);
+//            $f3->set('SESSION.relocate', $relocate);
+//
+//            $f3->reroute('job-open');
+//        } else {
+//            $f3->set('errors', $errors);
+//        }
     }
 
     $view = new Template();
