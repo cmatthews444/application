@@ -27,6 +27,8 @@ class Controller
     function personalInfo()
     {
 
+    $f3 = $this->f3;
+
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $firstName = $_POST['firstName'] ?? '';
             $lastName = $_POST['lastName'] ?? '';
@@ -34,7 +36,7 @@ class Controller
             $phone = $_POST['phone'] ?? '';
             $state = $_POST['state'] ?? '';
             $subscribe = isset($_POST['subscribe']);
-
+            $errors = [];
             if (!validName($firstName)) {
                 $errors['firstName'] = 'Please enter a valid first name.';
             }
@@ -53,10 +55,10 @@ class Controller
 
             if (!subscribe($subscribe)) {
                 if ($subscribe) {
-                    $Applicant = new Applicant_SubscribedToLists($firstName);
+                    $Applicant = new Applicant_SubscribedToLists($firstName, $lastName, $email, $phone, $state);
 
                 } else {
-                    $Applicant = new Applicant($firstName);
+                    $Applicant = new Applicant($firstName, $lastName, $email, $phone, $state);
                 }
                 $f3->set('SESSION.Applicant', $Applicant);
                 if ($subscribe) {
@@ -64,13 +66,35 @@ class Controller
                 } else {
                     $f3->reroute('/experience');
                 }
-                $view = new Template();
-                echo $view->render('views/personal-info.html');
+
 
             }
 
+            if (empty($errors)) {
+                if ($subscribe) {
+                    $applicant = new Applicant_SubscribedToLists($firstName, $lastName, $email, $phone, $state);
+                } else {
+                    $applicant = new Applicant($firstName, $lastName, $email, $phone, $state);
+                }
+                $f3->set('SESSION.applicant', $applicant);
+                if ($subscribe) {
+                    $f3->reroute('/job-open');
+                } else {
+                    $f3->reroute('/experience');
+                }
+            } else {
+                $f3->set('errors', $errors);
+            }
+            $view = new Template();
+            echo $view->render('views/personal-info.html');
+        }
+
+
+
             function experience()
             {
+                $f3 = $this->f3;
+
      if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $githubLink = $_POST['githubLink'] ?? '';
         $experience = $_POST['experience'] ?? '';
@@ -87,31 +111,74 @@ class Controller
             $errors['experience'] = 'Please select a valid experience range';
         }
 
-
-
-
-
-
-
+      $errors = [];
+            if (!validGithub($githubLink)) {
+                $errors['github'] = 'Please enter a valid GitHub link';
             }
 
-
-
-
-
-
-            function jobOpen()
-            {
-
+            if (!validExperience($experience)) {
+                $errors['experience'] = 'Please select a valid experience range';
             }
 
+            if (empty($errors)) {
+                $applicant = $f3->get('SESSION.applicant');
+                $applicant->setGithub($githubLink);
+                $applicant->setExperience($experience);
+                $applicant->setBio($biography);
+                $applicant->setRelocate($relocate);
 
-//echo "<p>test</p>";
-
-
+                $f3->reroute('job-open');
+            } else {
+                $f3->set('errors', $errors);
+            }
         }
 
+
+    $view = new Template();
+    echo $view->render('views/experience.html');
+
+
+
+
+
     }
+
+
+
+
+
+            function jobOpen(){
+     $f3->set('techOptions', ['JavaScript', 'PHP', 'HTML', 'CSS', 'Java', 'ReactJS', 'Python', 'NodeJS']);
+        $f3->set('industryOptions', ['SaaS', 'Health tech', 'Industrial tech', 'Cybersecurity', 'Ag tech', 'HR tech']);
+
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $techs = $_POST['techs'] ?? [];
+            $industries = $_POST['industries'] ?? [];
+
+
+            $applicant = $f3->get('SESSION.applicant');
+            if ($applicant instanceof Applicant_SubscribedToLists) {
+                $applicant->setSelectionsJobs($techs);
+                $applicant->setSelectionsVerticals($industries);
+            }
+
+            $f3->reroute('/summary');
+        } else {
+            $view = new Template();
+            echo $view->render('views/job-open.html');
+        }
+    }
+
+    function summary()
+    {
+        $view = new Template();
+        echo $view->render('views/summary.html');
+
+    }
+
+
+
 
 
 

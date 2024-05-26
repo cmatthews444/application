@@ -8,6 +8,33 @@ require_once('vendor/autoload.php');
 $f3 = Base::instance();
 include 'model/validate.php';
 
+$f3->route('GET /', function() {
+    $GLOBALS['con']->home();
+});
+
+$f3->route('GET /personal-info', function() {
+    $GLOBALS['con']->personalInfo();
+});
+
+$f3->route('GET /job-open', function() {
+    $GLOBALS['con']->jobOpen();
+});
+
+$f3->route('GET /experience', function() {
+    $GLOBALS['con']->experience();
+});
+
+
+$f3->route('GET /summary', function() {
+    $GLOBALS['con']->summary();
+});
+
+
+
+
+
+
+
 // Define route for home
 $f3->route('GET /', function () {
     $view = new Template();
