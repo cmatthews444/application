@@ -1,53 +1,97 @@
 <?php
 
-class Applicant_SubscribedToLists extends Applicant{
-    private array $selectionsJobs = [];
-    private array $selectionsVerticals = [];
+/**
+ * Applicant_SubscribedToLists class
+ *
+ * This class extends the Applicant class to include selections for jobs and verticals.
+ *
+ * @category   Application
+ * @package    ApplicantManagement
+ * @subpackage SubscribedToLists
+ * @author     Your Name
+ * @version    1.0
+ */
+
+class Applicant_SubscribedToLists extends Applicant
+{
+    /**
+     * @var array $selectionsJobs List of selected jobs
+     */
+    private $selectionsJobs = [];
 
     /**
-     * @param array $selectionsJobs
-     * @param array $selectionsVerticals
+     * @var array $selectionsVerticals List of selected verticals
      */
-    public function __construct(array $selectionsJobs, array $selectionsVerticals)
-    {
-        $this->selectionsJobs = $selectionsJobs;
-        $this->selectionsVerticals = $selectionsVerticals;
+    private $selectionsVerticals = [];
+
+    /**
+     * Constructor for the Applicant_SubscribedToLists class
+     *
+     * @param string $firstName
+     * @param string $lastName
+     * @param string $email
+     * @param string $state
+     * @param string $phone
+     * @param string $githubLink
+     * @param string $experience
+     * @param string $relocate
+     * @param string $biography
+     */
+    public function __construct(
+        $firstName,
+        $lastName,
+        $email,
+        $state,
+        $phone,
+        $githubLink,
+        $experience,
+        $relocate,
+        $biography
+    ) {
+        parent::__construct($firstName, $lastName, $email, $state, $phone, $githubLink, $experience, $relocate, $biography);
     }
 
-    public function getSelectionsJobs(): array
+    /**
+     * Get the list of selected jobs
+     *
+     * @return array
+     */
+    public function getSelectionsJobs()
     {
         return $this->selectionsJobs;
     }
 
-    public function setSelectionsJobs(array $selectionsJobs)
+    /**
+     * Set the list of selected jobs
+     *
+     * @param array $selectionsJobs
+     * @return void
+     */
+    public function setSelectionsJobs($selectionsJobs): void
     {
         $this->selectionsJobs = $selectionsJobs;
     }
 
-    public function getSelectionsVerticals(): array
+    /**
+     * Get the list of selected verticals
+     *
+     * @return array
+     */
+    public function getSelectionsVerticals()
     {
         return $this->selectionsVerticals;
     }
 
-    public function setSelectionsVerticals(array $selectionsVerticals)
+    /**
+     * Set the list of selected verticals
+     *
+     * @param array $selectionsVerticals
+     * @return void
+     */
+    public function setSelectionsVerticals($selectionsVerticals): void
     {
         $this->selectionsVerticals = $selectionsVerticals;
     }
-
-
-
-
 }
-{
-
-}
-
-
-
-
-
-
-
-
 
 ?>

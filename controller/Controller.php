@@ -1,42 +1,62 @@
 <?php
 
-/*
- * Controller for my application project
- *328/application/controller/controller
+/**
+ * Controller class
+ *
+ * This class handles the routing and logic for various application pages, including home, personal info, experience, job openings, and summary.
+ *
+ * @category   Application
+ * @package    ApplicantManagement
+ * @subpackage Controller
+ * @version    1.0
  */
 
 class Controller
 {
-
+    /**
+     * @var mixed $f3 Fat-Free Framework instance
+     */
     private $f3;
 
     /**
-     * @param $f3
+     * Constructor for the Controller class
+     *
+     * @param mixed $f3 Fat-Free Framework instance
      */
     public function __construct($f3)
     {
         $this->f3 = $f3;
     }
 
-    function home()
+    /**
+     * Render the home page
+     *
+     * @return void
+     */
+    public function home(): void
     {
         $view = new Template();
         echo $view->render('views/home.html');
     }
 
-    function personalInfo()
+    /**
+     * Handle personal information form submission and render the personal info page
+     *
+     * @return void
+     */
+    public function personalInfo(): void
     {
+        $f3 = $this->f3;
+        $errors = [];
 
-    $f3 = $this->f3;
-
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $firstName = $_POST['firstName'] ?? '';
             $lastName = $_POST['lastName'] ?? '';
             $email = $_POST['email'] ?? '';
             $phone = $_POST['phone'] ?? '';
             $state = $_POST['state'] ?? '';
             $subscribe = isset($_POST['subscribe']);
-            $errors = [];
+
             if (!validName($firstName)) {
                 $errors['firstName'] = 'Please enter a valid first name.';
             }
@@ -53,28 +73,16 @@ class Controller
                 $errors['phone'] = 'Please enter a valid phone number.';
             }
 
-            if (!subscribe($subscribe)) {
-                if ($subscribe) {
-                    $Applicant = new Applicant_SubscribedToLists($firstName, $lastName, $email, $phone, $state);
-
-                } else {
-                    $Applicant = new Applicant($firstName, $lastName, $email, $phone, $state);
-                }
-                $f3->set('SESSION.Applicant', $Applicant);
-                if ($subscribe) {
-                    $f3->reroute('/jop-open');
-                } else {
-                    $f3->reroute('/experience');
-                }
-
-
-            }
-
             if (empty($errors)) {
+                $github = '';
+                $experience = '';
+                $relocate = '';
+                $biography = '';
+
                 if ($subscribe) {
-                    $applicant = new Applicant_SubscribedToLists($firstName, $lastName, $email, $phone, $state);
+                    $applicant = new Applicant_SubscribedToLists($firstName, $lastName, $email, $state, $phone, $github, $experience, $relocate, $biography);
                 } else {
-                    $applicant = new Applicant($firstName, $lastName, $email, $phone, $state);
+                    $applicant = new Applicant($firstName, $lastName, $email, $state, $phone, $github, $experience, $relocate, $biography);
                 }
                 $f3->set('SESSION.applicant', $applicant);
                 if ($subscribe) {
@@ -85,33 +93,31 @@ class Controller
             } else {
                 $f3->set('errors', $errors);
             }
-            $view = new Template();
-            echo $view->render('views/personal-info.html');
         }
 
+        $view = new Template();
+        echo $view->render('views/personal-info.html');
+    }
 
+    /**
+     * Handle experience form submission and render the experience page
+     *
+     * @return void
+     */
+    public function experience(): void
+    {
+        $f3 = $this->f3;
 
-            function experience()
-            {
-                $f3 = $this->f3;
-
-     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        $githubLink = $_POST['githubLink'] ?? '';
-        $experience = $_POST['experience'] ?? '';
-        $biography = $_POST['biography'] ?? '';
-        $relocate = $_POST['relocate'] ?? '';
         $f3->set('experienceOptions', ['0-2', '2-4', '4+']);
         $f3->set('relocateOptions', ['yes', 'no', 'maybe']);
 
-        if (!validGithub($githubLink)) {
-            $errors['github'] = 'Please enter a valid GitHub link';
-        }
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $githubLink = $_POST['githubLink'] ?? '';
+            $experience = $_POST['experience'] ?? '';
+            $biography = $_POST['biography'] ?? '';
+            $relocate = $_POST['relocate'] ?? '';
 
-        if (!validExperience($experience)) {
-            $errors['experience'] = 'Please select a valid experience range';
-        }
-
-      $errors = [];
+            $errors = [];
             if (!validGithub($githubLink)) {
                 $errors['github'] = 'Please enter a valid GitHub link';
             }
@@ -122,40 +128,35 @@ class Controller
 
             if (empty($errors)) {
                 $applicant = $f3->get('SESSION.applicant');
-                $applicant->setGithub($githubLink);
+                $applicant->setGithubLink($githubLink);
                 $applicant->setExperience($experience);
-                $applicant->setBio($biography);
+                $applicant->setBiography($biography);
                 $applicant->setRelocate($relocate);
 
-                $f3->reroute('job-open');
+                $f3->reroute('/summary');
             } else {
                 $f3->set('errors', $errors);
             }
         }
 
-
-    $view = new Template();
-    echo $view->render('views/experience.html');
-
-
-
-
-
+        $view = new Template();
+        echo $view->render('views/experience.html');
     }
 
-
-
-
-
-            function jobOpen(){
-     $f3->set('techOptions', ['JavaScript', 'PHP', 'HTML', 'CSS', 'Java', 'ReactJS', 'Python', 'NodeJS']);
+    /**
+     * Handle job open form submission and render the job open page
+     *
+     * @return void
+     */
+    public function jobOpen(): void
+    {
+        $f3 = $this->f3;
+        $f3->set('techOptions', ['JavaScript', 'PHP', 'HTML', 'CSS', 'Java', 'ReactJS', 'Python', 'NodeJS']);
         $f3->set('industryOptions', ['SaaS', 'Health tech', 'Industrial tech', 'Cybersecurity', 'Ag tech', 'HR tech']);
-
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $techs = $_POST['techs'] ?? [];
             $industries = $_POST['industries'] ?? [];
-
 
             $applicant = $f3->get('SESSION.applicant');
             if ($applicant instanceof Applicant_SubscribedToLists) {
@@ -163,30 +164,23 @@ class Controller
                 $applicant->setSelectionsVerticals($industries);
             }
 
-            $f3->reroute('/summary');
+            $f3->reroute('/experience');
         } else {
             $view = new Template();
             echo $view->render('views/job-open.html');
         }
     }
 
-    function summary()
+    /**
+     * Render the summary page
+     *
+     * @return void
+     */
+    public function summary(): void
     {
         $view = new Template();
         echo $view->render('views/summary.html');
-
     }
-
-
-
-
-
-
-
 }
 
-
 ?>
-
-
-

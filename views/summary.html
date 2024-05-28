@@ -1,6 +1,3 @@
-<!--//328
-//Colton Matthews
-   The summery that prints and shows the application in full-->
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
@@ -16,21 +13,30 @@
 <div class="container summary-page-container">
     <h1>Lasers Summary</h1>
     <div class="summary-box">
-        <p><strong>Name:</strong> {{ @SESSION.firstName }} {{ @SESSION.lastName }}</p>
-        <p><strong>Email:</strong> {{ @SESSION.email }}</p>
-        <p><strong>State:</strong> {{ @SESSION.state }}</p>
-        <p><strong>Phone:</strong> {{ @SESSION.phone }}</p>
-        <p><strong>GitHub Link:</strong> {{ @SESSION.githubLink }}</p>
-        <p><strong>Experience:</strong> {{ @SESSION.experience }} years</p>
-        <p><strong>Willing To Relocate:</strong> {{ @SESSION.relocate }}</p>
+        <p><strong>Name:</strong> {{ @SESSION.applicant->getFirstName() }} {{ @SESSION.applicant->getLastName() }}</p>
+        <p><strong>Email:</strong> {{ @SESSION.applicant->getEmail() }}</p>
+        <p><strong>State:</strong> {{ @SESSION.applicant->getState() }}</p>
+        <p><strong>Phone:</strong> {{ @SESSION.applicant->getPhone() }}</p>
+        <p><strong>GitHub Link:</strong> {{ @SESSION.applicant->getGithubLink() }}</p>
+        <p><strong>Experience:</strong> {{ @SESSION.applicant->getExperience() }} years</p>
+        <p><strong>Willing To Relocate:</strong> {{ @SESSION.applicant->getRelocate() }}</p>
 
-
-
-        <p><strong>Mailing Lists:</strong> {{ implode(', ', @SESSION.techs) }}, {{ implode(', ', @SESSION.industries) }}</p>
+        <check if="{{ @SESSION.applicant instanceof Applicant_SubscribedToLists }}">
+            <true>
+                <p><strong>Mailing Lists:</strong>
+                    <check if="{{ @SESSION.applicant->getSelectionsJobs() }}">
+                        <true>{{ implode(', ', @SESSION.applicant->getSelectionsJobs()) }}</true>
+                    </check>
+                    <check if="{{ @SESSION.applicant->getSelectionsVerticals() }}">
+                        <true>, {{ implode(', ', @SESSION.applicant->getSelectionsVerticals()) }}</true>
+                    </check>
+                </p>
+            </true>
+        </check>
     </div>
     <div class="summary-text">
         <h3>Summary</h3>
-        <p>{{ @SESSION.biography }}</p>
+        <p>{{ @SESSION.applicant->getBiography() }}</p>
     </div>
     <form action="/confirm" method="post">
         <button class="btn btn-primary" type="submit">Submit My Application!</button>

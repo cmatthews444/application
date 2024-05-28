@@ -1,10 +1,18 @@
 <?php
 
 /**
- *  Applicant class
+ * Applicant class
+ *
+ * This class represents an applicant with various personal details and methods to access and modify them.
+ *
+ * @category   Application
+ * @package    ApplicantManagement
+ * @author     Your Name
+ * @version    1.0
  */
 
-class Applicant {
+class Applicant
+{
     private $firstName;
     private $lastName;
     private $email;
@@ -16,18 +24,29 @@ class Applicant {
     private $biography;
 
     /**
-     * @param $firstName
-     * @param $lastName
-     * @param $email
-     * @param $state
-     * @param $phone
-     * @param $githubLink
-     * @param $experience
-     * @param $relocate
-     * @param $biography
+     * Constructor for the Applicant class
+     *
+     * @param string $firstName
+     * @param string $lastName
+     * @param string $email
+     * @param string $state
+     * @param string $phone
+     * @param string $githubLink
+     * @param string $experience
+     * @param string $relocate
+     * @param string $biography
      */
-    public function __construct($firstName, $lastName, $email, $state, $phone, $githubLink, $experience, $relocate, $biography)
-    {
+    public function __construct(
+        $firstName,
+        $lastName,
+        $email,
+        $state,
+        $phone,
+        $githubLink,
+        $experience,
+        $relocate,
+        $biography
+    ) {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->email = $email;
@@ -39,9 +58,10 @@ class Applicant {
         $this->biography = $biography;
     }
 
-
     /**
-     * @return mixed
+     * Get the first name
+     *
+     * @return string
      */
     public function getFirstName()
     {
@@ -49,7 +69,10 @@ class Applicant {
     }
 
     /**
-     * @param mixed $firstName
+     * Set the first name
+     *
+     * @param string $firstName
+     * @return void
      */
     public function setFirstName($firstName): void
     {
@@ -57,7 +80,9 @@ class Applicant {
     }
 
     /**
-     * @return mixed
+     * Get the last name
+     *
+     * @return string
      */
     public function getLastName()
     {
@@ -65,7 +90,10 @@ class Applicant {
     }
 
     /**
-     * @param mixed $lastName
+     * Set the last name
+     *
+     * @param string $lastName
+     * @return void
      */
     public function setLastName($lastName): void
     {
@@ -73,7 +101,9 @@ class Applicant {
     }
 
     /**
-     * @return mixed
+     * Get the email
+     *
+     * @return string
      */
     public function getEmail()
     {
@@ -81,7 +111,10 @@ class Applicant {
     }
 
     /**
-     * @param mixed $email
+     * Set the email
+     *
+     * @param string $email
+     * @return void
      */
     public function setEmail($email): void
     {
@@ -89,7 +122,9 @@ class Applicant {
     }
 
     /**
-     * @return mixed
+     * Get the state
+     *
+     * @return string
      */
     public function getState()
     {
@@ -97,7 +132,10 @@ class Applicant {
     }
 
     /**
-     * @param mixed $state
+     * Set the state
+     *
+     * @param string $state
+     * @return void
      */
     public function setState($state): void
     {
@@ -105,7 +143,9 @@ class Applicant {
     }
 
     /**
-     * @return mixed
+     * Get the phone number
+     *
+     * @return string
      */
     public function getPhone()
     {
@@ -113,7 +153,10 @@ class Applicant {
     }
 
     /**
-     * @param mixed $phone
+     * Set the phone number
+     *
+     * @param string $phone
+     * @return void
      */
     public function setPhone($phone): void
     {
@@ -121,7 +164,9 @@ class Applicant {
     }
 
     /**
-     * @return mixed
+     * Get the GitHub link
+     *
+     * @return string
      */
     public function getGithubLink()
     {
@@ -129,7 +174,10 @@ class Applicant {
     }
 
     /**
-     * @param mixed $githubLink
+     * Set the GitHub link
+     *
+     * @param string $githubLink
+     * @return void
      */
     public function setGithubLink($githubLink): void
     {
@@ -137,7 +185,9 @@ class Applicant {
     }
 
     /**
-     * @return mixed
+     * Get the experience
+     *
+     * @return string
      */
     public function getExperience()
     {
@@ -145,7 +195,10 @@ class Applicant {
     }
 
     /**
-     * @param mixed $experience
+     * Set the experience
+     *
+     * @param string $experience
+     * @return void
      */
     public function setExperience($experience): void
     {
@@ -153,7 +206,9 @@ class Applicant {
     }
 
     /**
-     * @return mixed
+     * Get the relocate preference
+     *
+     * @return string
      */
     public function getRelocate()
     {
@@ -161,7 +216,10 @@ class Applicant {
     }
 
     /**
-     * @param mixed $relocate
+     * Set the relocate preference
+     *
+     * @param string $relocate
+     * @return void
      */
     public function setRelocate($relocate): void
     {
@@ -169,7 +227,9 @@ class Applicant {
     }
 
     /**
-     * @return mixed
+     * Get the biography
+     *
+     * @return string
      */
     public function getBiography()
     {
@@ -177,25 +237,15 @@ class Applicant {
     }
 
     /**
-     * @param mixed $biography
+     * Set the biography
+     *
+     * @param string $biography
+     * @return void
      */
     public function setBiography($biography): void
     {
         $this->biography = $biography;
     }
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
 
 ?>
