@@ -10,12 +10,18 @@ function validEmail($email) {
 }
 
 function validPhone($phone) {
-    return preg_match('/^\d{3}-\d{3}-\d{4}$/', $phone);
+    return preg_match('/^\d{10}$/', $phone);
 }
 
-function validGithub($url) {
-    return filter_var($url, FILTER_VALIDATE_URL);
+
+function validGithub($url): bool
+{
+    if (empty($url)) {
+        return true;
+    }
+    return filter_var($url, FILTER_VALIDATE_URL) !== false;
 }
+
 
 function validExperience($experience) {
     return in_array($experience, array('0-2', '2-4', '4+'));
@@ -28,7 +34,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstName = $_POST["firstName"];
     $lastName = $_POST["lastName"];
     $email = $_POST["email"];
-    $phone = $_POST["phone"];
+   $phone = $_POST["phone"];
     $githubLink = $_POST["githubLink"];
     $experience = $_POST["experience"];
     if (!validName($firstName)) {
